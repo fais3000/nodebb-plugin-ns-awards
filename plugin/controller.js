@@ -321,12 +321,14 @@
                     callback(null, posts);
                 } else {
                     async.map(posts, function (post, next) {
-                        Controller.getUserGrants(post.uid, settings.maxRewardsPerPost, function (error, grants) {
-                            if (error) {
-                                return next(error);
-                            }
-                            next(null, Object.assign(post, {nsRewards: grants}));
-                        });
+                        if(post){
+                            Controller.getUserGrants(post.uid, settings.maxRewardsPerPost, function (error, grants) {
+                                if (error) {
+                                    return next(error);
+                                }
+                                next(null, Object.assign(post, {nsRewards: grants}));
+                            });
+                        }
                     }, callback);
                 }
             }
